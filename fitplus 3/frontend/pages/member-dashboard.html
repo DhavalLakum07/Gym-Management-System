@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Member Dashboard — FitPlus</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../css/style.css"/>
+  <link rel="stylesheet" href="../css/dashboard.css"/>
+</head>
+<body>
+  <div class="dash-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="dash-sidebar">
+      <div class="dash-logo">FIT<span>+</span></div>
+      <nav class="dash-nav">
+        <a class="dash-link active" onclick="showTab('overview')" data-tab="overview">⬡ Overview</a>
+        <a class="dash-link" onclick="showTab('classes')"  data-tab="classes">📅 My Classes</a>
+        <a class="dash-link" onclick="showTab('progress')" data-tab="progress">📈 Progress</a>
+        <a class="dash-link" onclick="showTab('trainer')"  data-tab="trainer">💪 My Trainer</a>
+        <a class="dash-link" onclick="showTab('profile')"  data-tab="profile">◯ Profile</a>
+        <div style="font-size:.65rem;color:var(--gray2);text-transform:uppercase;letter-spacing:.1em;padding:10px 10px 4px;margin-top:6px;border-top:1px solid var(--border)">Smart Features</div>
+        <a class="dash-link" href="ai-plan.html">🤖 AI Plan</a>
+        <a class="dash-link" href="crowd.html">👥 Crowd</a>
+        <a class="dash-link" href="progress.html">📈 Charts</a>
+        <a class="dash-link" href="injury.html">⚠️ Injury Alert</a>
+      </nav>
+      <div class="dash-user">
+        <div class="dash-avatar" id="sAvatar">A</div>
+        <div class="dash-user-info">
+          <span class="dash-user-name" id="sName">Member</span>
+          <span class="dash-user-role">Member</span>
+        </div>
+        <button class="dash-logout" onclick="logout()" title="Logout">⏻</button>
+      </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="dash-main">
+
+      <!-- OVERVIEW -->
+      <div class="tab active" id="tab-overview">
+        <h1 class="dash-title" id="welcomeMsg">Welcome back!</h1>
+        <p class="dash-sub" id="planInfo">Loading…</p>
+        <div class="kpi-grid">
+          <div class="kpi kpi-accent"><div class="kpi-label">Attendance</div><div class="kpi-val" id="kAtt">—</div><div class="kpi-sub">sessions this month</div></div>
+          <div class="kpi"><div class="kpi-label">BMI</div><div class="kpi-val" id="kBmi">—</div><div class="kpi-sub">body mass index</div></div>
+          <div class="kpi"><div class="kpi-label">Classes</div><div class="kpi-val">3</div><div class="kpi-sub">enrolled this week</div></div>
+          <div class="kpi"><div class="kpi-label">Days Left</div><div class="kpi-val" id="kDays">—</div><div class="kpi-sub">membership expiry</div></div>
+        </div>
+        <div class="two-panel">
+          <div class="panel-card">
+            <div class="panel-title">TODAY'S SCHEDULE</div>
+            <div class="sched-item"><span class="sched-time">6:30 AM</span><div><div class="sched-name">Morning Yoga</div><div class="sched-meta">Priya Patel · Studio A</div></div><span class="badge badge-green">Today</span></div>
+            <div class="sched-item"><span class="sched-time">10:00 AM</span><div><div class="sched-name">Power Lifting</div><div class="sched-meta">Rahul Shah · Gym Floor</div></div><span class="badge badge-amber">Upcoming</span></div>
+          </div>
+          <div class="panel-card">
+            <div class="panel-title">RECENT ACTIVITY</div>
+            <div class="sched-item"><span style="font-size:1.2rem">✅</span><div><div class="sched-name">Checked in</div><div class="sched-meta">Today · 6:28 AM · 52 min</div></div></div>
+            <div class="sched-item"><span style="font-size:1.2rem">✅</span><div><div class="sched-name">HIIT Cardio</div><div class="sched-meta">Yesterday · 8:00 AM</div></div></div>
+            <div class="sched-item"><span style="font-size:1.2rem">✅</span><div><div class="sched-name">Checked in</div><div class="sched-meta">2 days ago · 55 min</div></div></div>
+          </div>
+        </div>
+        <div class="panel-card">
+          <div class="panel-title">WEEKLY ATTENDANCE</div>
+          <div class="att-bars" id="attBars"></div>
+        </div>
+      </div>
+
+      <!-- CLASSES -->
+      <div class="tab" id="tab-classes">
+        <h1 class="dash-title">MY CLASSES</h1>
+        <p class="dash-sub">Classes you are enrolled in this week</p>
+        <div class="table-card">
+          <div class="table-head">ENROLLED CLASSES</div>
+          <div style="overflow-x:auto">
+            <table>
+              <thead><tr><th>#</th><th>Class</th><th>Trainer</th><th>Days</th><th>Time</th><th>Capacity</th><th>Status</th></tr></thead>
+              <tbody>
+                <tr><td>1</td><td>Morning Yoga</td><td>Priya Patel</td><td>Mon/Wed/Fri</td><td style="color:var(--orange)">6:30 AM</td><td><div class="prog-bar"><div class="prog-fill" style="width:60%"></div></div></td><td><span class="badge badge-green">Enrolled</span></td></tr>
+                <tr><td>2</td><td>HIIT Cardio</td><td>Arjun Mehta</td><td>Tue/Thu/Sat</td><td style="color:var(--orange)">8:00 AM</td><td><div class="prog-bar"><div class="prog-fill" style="width:75%"></div></div></td><td><span class="badge badge-green">Enrolled</span></td></tr>
+                <tr><td>3</td><td>Power Lifting</td><td>Rahul Shah</td><td>Mon/Wed/Fri</td><td style="color:var(--orange)">10:00 AM</td><td><div class="prog-bar"><div class="prog-fill" style="width:40%"></div></div></td><td><span class="badge badge-green">Enrolled</span></td></tr>
+                <tr><td>4</td><td>Zumba Dance</td><td>Priya Patel</td><td>Tue/Sat</td><td style="color:var(--orange)">5:00 PM</td><td><div class="prog-bar"><div class="prog-fill" style="width:90%;background:var(--red)"></div></div></td><td><span class="badge badge-amber">Waitlist</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- PROGRESS -->
+      <div class="tab" id="tab-progress">
+        <h1 class="dash-title">MY PROGRESS</h1>
+        <p class="dash-sub">Track your fitness journey</p>
+        <div class="kpi-grid">
+          <div class="kpi kpi-accent"><div class="kpi-label">Total Sessions</div><div class="kpi-val" id="pTotal">—</div><div class="kpi-sub">since joining</div></div>
+          <div class="kpi"><div class="kpi-label">This Month</div><div class="kpi-val">8</div><div class="kpi-sub">sessions</div></div>
+          <div class="kpi"><div class="kpi-label">Streak</div><div class="kpi-val">5 🔥</div><div class="kpi-sub">days in a row</div></div>
+          <div class="kpi"><div class="kpi-label">Goal</div><div class="kpi-val">75%</div><div class="kpi-sub">monthly target</div></div>
+        </div>
+        <div class="two-panel">
+          <div class="panel-card">
+            <div class="panel-title">BODY STATS</div>
+            <div class="stat-bars">
+              <div class="stat-bar-row"><div class="stat-bar-label"><span>Weight</span><span>72 kg</span></div><div class="prog-bar"><div class="prog-fill" style="width:65%;background:var(--blue)"></div></div></div>
+              <div class="stat-bar-row"><div class="stat-bar-label"><span>BMI</span><span style="color:var(--green)" id="progBmi">—</span></div><div class="prog-bar"><div class="prog-fill" style="width:45%;background:var(--green)"></div></div></div>
+              <div class="stat-bar-row"><div class="stat-bar-label"><span>Attendance Goal</span><span>75%</span></div><div class="prog-bar"><div class="prog-fill" style="width:75%"></div></div></div>
+              <div class="stat-bar-row"><div class="stat-bar-label"><span>Strength Score</span><span>68/100</span></div><div class="prog-bar"><div class="prog-fill" style="width:68%;background:var(--amber)"></div></div></div>
+            </div>
+          </div>
+          <div class="panel-card">
+            <div class="panel-title">MONTHLY LOG</div>
+            <div class="sched-item"><div><div class="sched-name">Jan 2025</div><div class="sched-meta">10 sessions · 9.2 hrs</div></div><span class="badge badge-green">Good</span></div>
+            <div class="sched-item"><div><div class="sched-name">Dec 2024</div><div class="sched-meta">8 sessions · 7.5 hrs</div></div><span class="badge badge-blue">OK</span></div>
+            <div class="sched-item"><div><div class="sched-name">Nov 2024</div><div class="sched-meta">12 sessions · 11 hrs</div></div><span class="badge badge-green">Great</span></div>
+            <div class="sched-item"><div><div class="sched-name">Oct 2024</div><div class="sched-meta">6 sessions · 5.5 hrs</div></div><span class="badge badge-amber">Low</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MY TRAINER -->
+      <div class="tab" id="tab-trainer">
+        <h1 class="dash-title">MY TRAINER</h1>
+        <p class="dash-sub">Your assigned trainer details and notes</p>
+        <div class="trainer-profile">
+          <div class="trainer-avatar-wrap">
+            <div class="trainer-avatar-lg">RS</div>
+            <span class="badge badge-green">Active</span>
+          </div>
+          <div class="panel-card" style="flex:1">
+            <div class="panel-title">RAHUL SHAH</div>
+            <div class="detail-rows">
+              <div class="detail-row"><span>Speciality</span><span>Strength &amp; Powerlifting</span></div>
+              <div class="detail-row"><span>Experience</span><span>8 years</span></div>
+              <div class="detail-row"><span>Phone</span><span style="color:var(--orange)">+91 9800000002</span></div>
+              <div class="detail-row"><span>Schedule</span><span>Mon/Wed/Fri · 7AM–12PM</span></div>
+              <div class="detail-row"><span>Members</span><span>12 assigned</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="panel-card" style="margin-top:16px">
+          <div class="panel-title">TRAINER NOTES</div>
+          <p style="padding:14px;font-size:.875rem;color:var(--gray);line-height:1.7">
+            "Focus on progressive overload this month. Increase bench press by 5kg next week. Maintain protein intake at 2g/kg bodyweight. Great improvement in squat form — keep it up! Remember to stretch after every session."
+          </p>
+        </div>
+      </div>
+
+      <!-- PROFILE -->
+      <div class="tab" id="tab-profile">
+        <h1 class="dash-title">MY PROFILE</h1>
+        <p class="dash-sub">Your account information</p>
+        <div class="profile-layout">
+          <div class="profile-avatar-card">
+            <div class="profile-av-lg" id="profAvBig">A</div>
+            <div class="profile-name" id="profName">—</div>
+            <div class="role-pill">Member</div>
+          </div>
+          <div class="panel-card" style="flex:1">
+            <div class="panel-title">DETAILS</div>
+            <div class="detail-rows">
+              <div class="detail-row"><span>Name</span><span id="profNameD">—</span></div>
+              <div class="detail-row"><span>Email</span><span id="profEmail">—</span></div>
+              <div class="detail-row"><span>Phone</span><span id="profPhone">—</span></div>
+              <div class="detail-row"><span>Plan</span><span id="profPlan" style="color:var(--orange)">—</span></div>
+              <div class="detail-row"><span>Joined</span><span id="profJoined">—</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <script src="../js/auth.js"></script>
+  <script src="../js/dashboard.js"></script>
+  <script>
+    const user = requireAuth('member');
+    if (user) {
+      document.getElementById('welcomeMsg').textContent = 'Welcome back, ' + user.name.split(' ')[0] + ' 💪';
+      document.getElementById('planInfo').textContent   = 'Plan: ' + (user.plan||'Basic') + ' · Member since ' + (user.joined||'Oct 2024');
+      document.getElementById('sName').textContent      = user.name.split(' ')[0];
+      document.getElementById('sAvatar').textContent    = user.name.charAt(0).toUpperCase();
+      document.getElementById('kAtt').textContent       = user.att || 24;
+      document.getElementById('kBmi').textContent       = user.bmi || '—';
+      document.getElementById('kDays').textContent      = user.days || 47;
+      document.getElementById('pTotal').textContent     = user.att || 24;
+      document.getElementById('progBmi').textContent    = (user.bmi||'22.4') + ' — Normal';
+      document.getElementById('profAvBig').textContent  = user.name.charAt(0).toUpperCase();
+      document.getElementById('profName').textContent   = user.name;
+      document.getElementById('profNameD').textContent  = user.name;
+      document.getElementById('profEmail').textContent  = user.email;
+      document.getElementById('profPhone').textContent  = user.phone || '—';
+      document.getElementById('profPlan').textContent   = user.plan || 'Basic';
+      document.getElementById('profJoined').textContent = user.joined || 'Oct 2024';
+      renderAttBars('attBars');
+    }
+    function logout() { clearSession(); window.location.href = 'auth.html'; }
+  </script>
+</body>
+</html>

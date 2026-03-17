@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contact — FitPlus</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../css/style.css"/>
+  <style>
+    .contact-page { padding: 70px 5%; max-width: 1000px; margin: 0 auto; }
+    .contact-layout { display: grid; grid-template-columns: 1.2fr 1fr; gap: 32px; align-items: start; }
+    @media(max-width:700px){ .contact-layout { grid-template-columns:1fr; } }
+
+    .contact-info { display: flex; flex-direction: column; gap: 14px; }
+    .info-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 20px 22px;
+      display: flex; align-items: flex-start; gap: 14px;
+      transition: border-color var(--trans);
+    }
+    .info-card:hover { border-color: rgba(255,107,43,0.3); }
+    .info-icon { font-size: 1.5rem; flex-shrink:0; margin-top:2px; }
+    .info-title { font-weight: 600; margin-bottom:3px; font-size:0.9rem; }
+    .info-val { font-size: 0.875rem; color: var(--gray); line-height:1.6; }
+
+    .hours-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 22px;
+    }
+    .hours-card h4 {
+      font-family: var(--font-display);
+      font-size: 1.2rem; letter-spacing:1px;
+      margin-bottom: 14px;
+    }
+    .hours-row {
+      display: flex; justify-content: space-between;
+      padding: 9px 0; border-bottom: 1px solid var(--border);
+      font-size: 0.875rem;
+    }
+    .hours-row:last-child { border-bottom: none; }
+    .hours-row span:first-child { color: var(--gray); }
+    .hours-row .open { color: #22c55e; font-weight:500; }
+    .hours-row .closed { color: #ef4444; }
+
+    .contact-form-title {
+      font-family: var(--font-display);
+      font-size: 1.6rem; letter-spacing:1px;
+      margin-bottom: 22px;
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="nav">
+    <a href="../index.html" class="nav-logo">FIT<span>+</span></a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="bmi.html">BMI</a></li>
+      <li><a href="ai-plan.html">🤖 AI Plan</a></li>
+      <li><a href="crowd.html">👥 Crowd</a></li>
+      <li><a href="progress.html">📈 Progress</a></li>
+      <li><a href="injury.html">⚠️ Injury</a></li>
+      <li><a href="contact.html" class="active">Contact</a></li>
+      <li><a href="auth.html" class="nav-admin">🔑 Login / Sign Up</a></li>
+    </ul>
+    <button class="nav-toggle" onclick="toggleMenu()">☰</button>
+  </nav>
+
+  <div class="page-hero">
+    <div class="section-tag">Get in Touch</div>
+    <h1>CONTACT US</h1>
+    <p>Have questions? Want to join? Reach out and we'll get back to you within 24 hours.</p>
+  </div>
+
+  <div class="contact-page">
+    <div class="contact-layout">
+
+      <!-- Form -->
+      <div class="card-box">
+        <h3 class="contact-form-title">SEND A MESSAGE</h3>
+        <form id="contactForm" onsubmit="submitContact(event)">
+          <div class="form-group">
+            <label>Full Name *</label>
+            <input type="text" id="cName" placeholder="Your full name" required/>
+          </div>
+          <div class="form-group">
+            <label>Phone Number *</label>
+            <input type="tel" id="cPhone" placeholder="+91 98765 43210" required/>
+          </div>
+          <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" id="cEmail" placeholder="you@email.com"/>
+          </div>
+          <div class="form-group">
+            <label>Interested In</label>
+            <select id="cInterest">
+              <option value="">Select a program</option>
+              <option>Weight Training</option>
+              <option>Yoga & Flexibility</option>
+              <option>Cardio & Boxing</option>
+              <option>Zumba / Dance</option>
+              <option>Pilates</option>
+              <option>Personal Training</option>
+              <option>Membership Plans</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Message</label>
+            <textarea id="cMessage" placeholder="Tell us your goal or question…"></textarea>
+          </div>
+          <button type="submit" class="btn-primary" style="width:100%;text-align:center">
+            SEND MESSAGE →
+          </button>
+        </form>
+        <div class="success-msg" id="successMsg">
+          ✅ Message sent! We'll contact you at <strong id="successPhone"></strong> within 24 hours.
+        </div>
+      </div>
+
+      <!-- Info -->
+      <div>
+        <div class="contact-info" style="margin-bottom:20px">
+          <div class="info-card">
+            <div class="info-icon">👤</div>
+            <div>
+              <div class="info-title">Admin</div>
+              <div class="info-val">Lakum Dhaval</div>
+            </div>
+          </div>
+          <div class="info-card">
+            <div class="info-icon">📞</div>
+            <div>
+              <div class="info-title">Phone</div>
+              <div class="info-val">+91 9904755999</div>
+            </div>
+          </div>
+          <div class="info-card">
+            <div class="info-icon">📧</div>
+            <div>
+              <div class="info-title">Email</div>
+              <div class="info-val">admin@fitplus.com</div>
+            </div>
+          </div>
+          <div class="info-card">
+            <div class="info-icon">📍</div>
+            <div>
+              <div class="info-title">Location</div>
+              <div class="info-val">Ahmedabad, Gujarat, India</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="hours-card">
+          <h4>GYM HOURS</h4>
+          <div class="hours-row"><span>Monday – Friday</span><span class="open">5:00 AM – 10:00 PM</span></div>
+          <div class="hours-row"><span>Saturday</span><span class="open">6:00 AM – 8:00 PM</span></div>
+          <div class="hours-row"><span>Sunday</span><span class="open">7:00 AM – 2:00 PM</span></div>
+          <div class="hours-row"><span>Public Holidays</span><span class="closed">Closed</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="nav-logo" style="font-size:2rem">FIT<span>+</span></div>
+        <p>Your complete fitness destination.<br/>Train hard. Live strong.</p>
+      </div>
+      <div class="footer-links">
+        <p class="footer-heading">Quick Links</p>
+        <a href="../index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="bmi.html">BMI Calculator</a>
+        <a href="contact.html">Contact</a>
+        <a href="auth.html">Login / Sign Up</a>
+      </div>
+      <div class="footer-links">
+        <p class="footer-heading">Smart Features</p>
+        <a href="ai-plan.html">🤖 AI Workout Plan</a>
+        <a href="crowd.html">👥 Crowd Prediction</a>
+        <a href="progress.html">📈 Progress Charts</a>
+        <a href="injury.html">⚠️ Injury Prevention</a>
+      </div>
+      <div class="footer-contact">
+        <p class="footer-heading">Contact Us</p>
+        <p>📞 +91 99047 55999</p>
+        <p>📧 admin@fitplus.com</p>
+        <p>📍 Ahmedabad, Gujarat</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 FitPlus. All rights reserved. | Admin: Lakum Dhaval</p>
+    </div>
+  </footer>
+
+  <script src="../js/main.js"></script>
+  <script>
+    function submitContact(e) {
+      e.preventDefault();
+      const phone = document.getElementById('cPhone').value;
+      if (!phone) { alert('Please enter your phone number'); return; }
+
+      // Hide form, show success
+      document.getElementById('contactForm').style.display = 'none';
+      const msg = document.getElementById('successMsg');
+      document.getElementById('successPhone').textContent = phone;
+      msg.style.display = 'block';
+
+      // Also send to Python backend
+      const data = {
+        name:     document.getElementById('cName').value,
+        phone:    phone,
+        email:    document.getElementById('cEmail').value,
+        interest: document.getElementById('cInterest').value,
+        message:  document.getElementById('cMessage').value,
+      };
+
+      fetch('http://localhost:5001/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      }).catch(() => {
+        // Backend might not be running — form still works visually
+        console.log('Backend not running — message shown locally');
+      });
+    }
+  </script>
+</body>
+</html>

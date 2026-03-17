@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login / Sign Up — FitPlus</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../css/style.css"/>
+  <style>
+    /* ── page layout ── */
+    body { background: var(--bg); }
+    .auth-page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── top nav ── */
+    .auth-nav {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 5%; height: 60px;
+      background: rgba(12,12,12,.95);
+      border-bottom: 1px solid var(--border);
+    }
+    .auth-nav .logo  { font-family: var(--font-display); font-size: 1.7rem; letter-spacing: 2px; }
+    .auth-nav .logo span { color: var(--orange); }
+    .back-btn {
+      font-size: .84rem; color: var(--gray); display: flex; align-items: center; gap: 6px;
+      transition: color var(--trans);
+    }
+    .back-btn:hover { color: var(--white); }
+
+    /* ── main area ── */
+    .auth-body {
+      flex: 1; display: flex; align-items: flex-start;
+      justify-content: center; padding: 40px 20px 60px;
+    }
+    .auth-container { width: 100%; max-width: 480px; }
+
+    /* ── STEP 1: role selector ── */
+    .step { display: none; animation: slideUp .32s ease both; }
+    .step.active { display: block; }
+    @keyframes slideUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+
+    .step-heading {
+      text-align: center; margin-bottom: 28px;
+    }
+    .step-heading .brand {
+      font-family: var(--font-display); font-size: 2rem; letter-spacing: 3px;
+      margin-bottom: 6px;
+    }
+    .step-heading .brand span { color: var(--orange); }
+    .step-heading h2 {
+      font-family: var(--font-display); font-size: 1.6rem; letter-spacing: 1px; margin-bottom: 6px;
+    }
+    .step-heading p { font-size: .875rem; color: var(--gray); }
+
+    /* role cards */
+    .role-cards { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
+    .role-card {
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: 14px; padding: 18px 20px;
+      display: flex; align-items: center; gap: 16px;
+      cursor: pointer; transition: all var(--trans);
+      text-decoration: none; color: var(--white);
+    }
+    .role-card:hover { border-color: var(--border2); transform: translateY(-2px); }
+    .role-card.member-card:hover  { border-color: rgba(255,107,43,.4); background: rgba(255,107,43,.05); }
+    .role-card.trainer-card:hover { border-color: rgba(59,130,246,.4);  background: rgba(59,130,246,.05); }
+    .role-card.admin-card:hover   { border-color: rgba(168,85,247,.4);  background: rgba(168,85,247,.05); }
+    .role-icon {
+      width: 52px; height: 52px; border-radius: 13px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center; font-size: 1.5rem;
+    }
+    .member-icon  { background: rgba(255,107,43,.12); }
+    .trainer-icon { background: rgba(59,130,246,.12); }
+    .admin-icon   { background: rgba(168,85,247,.12); }
+    .role-info { flex: 1; }
+    .role-title {
+      font-family: var(--font-display); font-size: 1.3rem; letter-spacing: 1px; margin-bottom: 3px;
+    }
+    .role-desc { font-size: .8rem; color: var(--gray); line-height: 1.4; }
+    .role-arrow { color: var(--gray2); font-size: 1.1rem; flex-shrink: 0; transition: transform var(--trans); }
+    .role-card:hover .role-arrow { transform: translateX(4px); color: var(--white); }
+
+    /* action tabs (login / signup) */
+    .action-tabs {
+      display: flex; background: var(--bg3); border-radius: 10px; padding: 4px; margin-bottom: 22px;
+    }
+    .action-tab {
+      flex: 1; text-align: center; padding: 9px; border-radius: 8px;
+      font-family: var(--font-display); font-size: 1rem; letter-spacing: .5px;
+      cursor: pointer; transition: all var(--trans); color: var(--gray);
+    }
+    .action-tab.active { background: var(--orange); color: #fff; }
+
+    /* ── form card ── */
+    .form-card {
+      background: var(--bg2); border: 1px solid var(--border2);
+      border-radius: 18px; padding: 28px;
+    }
+    .form-card .card-title {
+      font-family: var(--font-display); font-size: 1.4rem; letter-spacing: 1px; margin-bottom: 18px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .role-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 3px 12px; border-radius: 99px; font-size: .72rem;
+      font-weight: 600; font-family: var(--font-body);
+      text-transform: uppercase; letter-spacing: .06em;
+    }
+    .badge-member  { background: rgba(255,107,43,.12); color: var(--orange); }
+    .badge-trainer { background: rgba(59,130,246,.12);  color: #3b82f6; }
+    .badge-admin   { background: rgba(168,85,247,.12);  color: #a855f7; }
+
+    .err-box {
+      display: none; background: rgba(239,68,68,.1); border: 1px solid rgba(239,68,68,.25);
+      border-radius: 8px; padding: 10px 13px; color: #ef4444; font-size: .82rem; margin-bottom: 14px;
+    }
+    .ok-box {
+      display: none; background: rgba(34,197,94,.1); border: 1px solid rgba(34,197,94,.25);
+      border-radius: 8px; padding: 10px 13px; color: #22c55e; font-size: .82rem; margin-bottom: 14px;
+    }
+    .form-switch { font-size: .8rem; color: var(--gray); margin-top: 14px; text-align: center; }
+    .form-switch a { color: var(--orange); cursor: pointer; text-decoration: underline; }
+
+    /* back to roles */
+    .back-to-roles {
+      display: flex; align-items: center; gap: 6px;
+      font-size: .8rem; color: var(--gray2); cursor: pointer;
+      margin-bottom: 18px; transition: color var(--trans); width: fit-content;
+    }
+    .back-to-roles:hover { color: var(--gray); }
+
+    /* demo hint */
+    .demo-hint {
+      background: var(--bg3); border-radius: 9px; padding: 11px 14px;
+      font-size: .78rem; color: var(--gray); margin-top: 14px; line-height: 1.7;
+    }
+    .demo-hint strong { color: var(--white); display: block; margin-bottom: 3px; }
+
+    /* two col */
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    @media(max-width:480px){ .two-col { grid-template-columns: 1fr; } }
+
+    /* admin pin box */
+    .pin-note {
+      background: rgba(168,85,247,.07); border: 1px solid rgba(168,85,247,.2);
+      border-radius: 8px; padding: 10px 13px; font-size: .8rem; color: var(--gray); margin-bottom: 14px;
+    }
+    .pin-note strong { color: #a855f7; }
+  </style>
+</head>
+<body>
+<div class="auth-page">
+
+  <!-- nav -->
+  <div class="auth-nav">
+    <a href="../index.html" class="logo">FIT<span>+</span></a>
+    <a href="../index.html" class="back-btn">← Back to Home</a>
+  </div>
+
+  <div class="auth-body">
+    <div class="auth-container">
+
+      <!-- ══ STEP 1: Choose your role ══════════════════════════ -->
+      <div class="step active" id="step-role">
+        <div class="step-heading">
+          <div class="brand">FIT<span>+</span></div>
+          <h2>WHO ARE YOU?</h2>
+          <p>Select your role to continue to login or sign up</p>
+        </div>
+
+        <div class="role-cards">
+          <!-- Member -->
+          <div class="role-card member-card" onclick="pickRole('member')">
+            <div class="role-icon member-icon">🏃</div>
+            <div class="role-info">
+              <div class="role-title">MEMBER</div>
+              <div class="role-desc">Access your dashboard, classes, AI workout plan, progress charts and more</div>
+            </div>
+            <span class="role-arrow">›</span>
+          </div>
+
+          <!-- Trainer -->
+          <div class="role-card trainer-card" onclick="pickRole('trainer')">
+            <div class="role-icon trainer-icon">💪</div>
+            <div class="role-info">
+              <div class="role-title">TRAINER</div>
+              <div class="role-desc">Manage your members, view attendance, set schedules and track performance</div>
+            </div>
+            <span class="role-arrow">›</span>
+          </div>
+
+          <!-- Admin -->
+          <div class="role-card admin-card" onclick="pickRole('admin')">
+            <div class="role-icon admin-icon">🛡️</div>
+            <div class="role-info">
+              <div class="role-title">ADMIN</div>
+              <div class="role-desc">Full control — manage all members, trainers, payments, classes and reports</div>
+            </div>
+            <span class="role-arrow">›</span>
+          </div>
+        </div>
+
+        <p style="text-align:center;font-size:.78rem;color:var(--gray2);">
+          New to FitPlus? Select Member above and choose "Sign Up"
+        </p>
+      </div>
+
+      <!-- ══ STEP 2: Login / Signup form ══════════════════════ -->
+      <div class="step" id="step-form">
+
+        <!-- back button -->
+        <div class="back-to-roles" onclick="goBack()">← Change role</div>
+
+        <!-- login / signup toggle -->
+        <div class="action-tabs" id="actionTabs">
+          <div class="action-tab active" id="tab-login"  onclick="switchTab('login')">Sign In</div>
+          <div class="action-tab"        id="tab-signup" onclick="switchTab('signup')">Sign Up</div>
+        </div>
+
+        <!-- ── LOGIN FORM ── -->
+        <div id="loginForm">
+          <div class="form-card">
+            <div class="card-title">
+              SIGN IN
+              <span class="role-badge" id="loginRoleBadge"></span>
+            </div>
+            <div class="err-box" id="loginErr">Wrong email or password. Try again.</div>
+
+            <!-- Admin gets username, others get email -->
+            <div class="form-group" id="loginEmailGroup">
+              <label>Email Address</label>
+              <input type="email" id="lEmail" placeholder="you@email.com"/>
+            </div>
+            <div class="form-group" id="loginUsernameGroup" style="display:none">
+              <label>Username</label>
+              <input type="text" id="lUsername" placeholder="admin"/>
+            </div>
+            <div class="form-group">
+              <label>Password</label>
+              <input type="password" id="lPass" placeholder="••••••••"
+                     onkeydown="if(event.key==='Enter') doLogin()"/>
+            </div>
+
+            <button class="btn-primary" style="width:100%;text-align:center" onclick="doLogin()">
+              SIGN IN →
+            </button>
+
+            <div class="demo-hint" id="loginHint"></div>
+          </div>
+          <div class="form-switch" id="loginSwitch">
+            No account? <a onclick="switchTab('signup')">Create one free →</a>
+          </div>
+        </div>
+
+        <!-- ── SIGNUP FORM ── -->
+        <div id="signupForm" style="display:none">
+          <div class="form-card">
+            <div class="card-title">
+              CREATE ACCOUNT
+              <span class="role-badge" id="signupRoleBadge"></span>
+            </div>
+            <div class="err-box" id="signupErr"></div>
+            <div class="ok-box"  id="signupOk"></div>
+
+            <div class="two-col">
+              <div class="form-group"><label>First Name *</label><input id="sFirst" placeholder="Arjun"/></div>
+              <div class="form-group"><label>Last Name *</label><input id="sLast"  placeholder="Mehta"/></div>
+            </div>
+            <div class="form-group"><label>Email Address *</label><input type="email" id="sEmail" placeholder="you@email.com"/></div>
+            <div class="form-group"><label>Phone Number *</label><input id="sPhone" placeholder="+91 98765 43210"/></div>
+
+            <!-- Member-only fields -->
+            <div id="memberSignupFields">
+              <div class="two-col">
+                <div class="form-group"><label>Age</label><input type="number" id="sAge" placeholder="25"/></div>
+                <div class="form-group"><label>Gender</label>
+                  <select id="sGender"><option value="">Select</option><option>Male</option><option>Female</option><option>Other</option></select>
+                </div>
+              </div>
+              <div class="form-group"><label>Choose Membership Plan</label>
+                <select id="sPlan">
+                  <option value="">Select a plan</option>
+                  <option value="Basic">Basic — ₹699/month</option>
+                  <option value="Standard">Standard — ₹1,799/3 months</option>
+                  <option value="Premium">Premium — ₹4,999/year</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Trainer-only fields -->
+            <div id="trainerSignupFields" style="display:none">
+              <div class="form-group"><label>Speciality</label><input id="sSpec" placeholder="e.g. Yoga, Strength, Cardio"/></div>
+              <div class="form-group"><label>Years of Experience</label><input type="number" id="sExp" placeholder="3"/></div>
+            </div>
+
+            <div class="two-col">
+              <div class="form-group"><label>Password *</label><input type="password" id="sPass" placeholder="••••••••"/></div>
+              <div class="form-group"><label>Confirm Password *</label><input type="password" id="sCPass" placeholder="••••••••"/></div>
+            </div>
+
+            <button class="btn-primary" style="width:100%;text-align:center" onclick="doSignup()">
+              CREATE ACCOUNT →
+            </button>
+          </div>
+          <div class="form-switch">
+            Already have an account? <a onclick="switchTab('login')">Sign in →</a>
+          </div>
+        </div>
+
+      </div><!-- /step-form -->
+
+    </div><!-- /auth-container -->
+  </div><!-- /auth-body -->
+
+</div><!-- /auth-page -->
+
+<script src="../js/auth.js"></script>
+<script>
+  let currentRole = 'member';
+  let currentTab  = 'login';
+
+  /* ── Role colours & labels ────────────────────── */
+  const ROLE_META = {
+    member:  { label:'Member',  badgeClass:'badge-member',  color:'var(--orange)', icon:'🏃' },
+    trainer: { label:'Trainer', badgeClass:'badge-trainer', color:'#3b82f6',       icon:'💪' },
+    admin:   { label:'Admin',   badgeClass:'badge-admin',   color:'#a855f7',       icon:'🛡️' },
+  };
+
+  /* ── Step 1 → Step 2 ──────────────────────────── */
+  function pickRole(role) {
+    currentRole = role;
+    const meta  = ROLE_META[role];
+
+    // Set badges
+    document.getElementById('loginRoleBadge').textContent  = meta.icon + ' ' + meta.label;
+    document.getElementById('loginRoleBadge').className    = 'role-badge ' + meta.badgeClass;
+    document.getElementById('signupRoleBadge').textContent = meta.icon + ' ' + meta.label;
+    document.getElementById('signupRoleBadge').className   = 'role-badge ' + meta.badgeClass;
+
+    // Admin: show username field, hide email; hide signup tab
+    if (role === 'admin') {
+      document.getElementById('loginEmailGroup').style.display    = 'none';
+      document.getElementById('loginUsernameGroup').style.display = 'block';
+      document.getElementById('tab-signup').style.display         = 'none';
+      document.getElementById('loginSwitch').style.display        = 'none';
+      document.getElementById('loginHint').innerHTML = '<strong>Admin credentials:</strong>Username: admin · Password: fitplus123';
+      switchTab('login');
+    } else {
+      document.getElementById('loginEmailGroup').style.display    = 'block';
+      document.getElementById('loginUsernameGroup').style.display = 'none';
+      document.getElementById('tab-signup').style.display         = '';
+      document.getElementById('loginSwitch').style.display        = '';
+      const demos = {
+        member:  'Email: arjun@email.com · Password: pass123',
+        trainer: 'Email: rahul@trainer.com · Password: pass123',
+      };
+      document.getElementById('loginHint').innerHTML = '<strong>Demo account:</strong>' + demos[role];
+    }
+
+    // Member / Trainer signup fields
+    document.getElementById('memberSignupFields').style.display  = role === 'member'  ? 'block' : 'none';
+    document.getElementById('trainerSignupFields').style.display = role === 'trainer' ? 'block' : 'none';
+
+    // Colour the tab active indicator
+    document.querySelectorAll('.action-tab').forEach(t => {
+      t.style.setProperty('--tab-active', meta.color);
+    });
+
+    // Transition steps
+    document.getElementById('step-role').classList.remove('active');
+    setTimeout(() => {
+      document.getElementById('step-role').style.display = 'none';
+      document.getElementById('step-form').style.display = 'block';
+      document.getElementById('step-form').classList.add('active');
+    }, 80);
+  }
+
+  /* ── Back to role selector ────────────────────── */
+  function goBack() {
+    document.getElementById('step-form').classList.remove('active');
+    document.getElementById('step-form').style.display = 'none';
+    document.getElementById('step-role').style.display = 'block';
+    document.getElementById('step-role').classList.add('active');
+    clearMessages();
+  }
+
+  /* ── Switch login/signup tabs ─────────────────── */
+  function switchTab(tab) {
+    currentTab = tab;
+    document.getElementById('loginForm').style.display  = tab === 'login'  ? 'block' : 'none';
+    document.getElementById('signupForm').style.display = tab === 'signup' ? 'block' : 'none';
+    document.getElementById('tab-login').classList.toggle('active',  tab === 'login');
+    document.getElementById('tab-signup').classList.toggle('active', tab === 'signup');
+    clearMessages();
+  }
+
+  /* ── Clear error/success messages ─────────────── */
+  function clearMessages() {
+    ['loginErr','signupErr','signupOk'].forEach(id => {
+      document.getElementById(id).style.display = 'none';
+    });
+  }
+
+  /* ── LOGIN ────────────────────────────────────── */
+  function doLogin() {
+    clearMessages();
+
+    // Admin login
+    if (currentRole === 'admin') {
+      const u = document.getElementById('lUsername').value.trim();
+      const p = document.getElementById('lPass').value;
+      if (u === 'admin' && p === 'fitplus123') {
+        window.location.href = 'admin.html';
+      } else {
+        document.getElementById('loginErr').style.display = 'block';
+      }
+      return;
+    }
+
+    // Member / Trainer login
+    const email = document.getElementById('lEmail').value.trim().toLowerCase();
+    const pass  = document.getElementById('lPass').value;
+    const users = getUsers();
+    const user  = users.find(u => u.email === email && u.pass === pass && u.role === currentRole);
+
+    if (!user) {
+      document.getElementById('loginErr').style.display = 'block';
+      return;
+    }
+    saveSession(user);
+    window.location.href = currentRole === 'member' ? 'member-dashboard.html' : 'trainer-dashboard.html';
+  }
+
+  /* ── SIGNUP ───────────────────────────────────── */
+  function doSignup() {
+    clearMessages();
+    const first = document.getElementById('sFirst').value.trim();
+    const last  = document.getElementById('sLast').value.trim();
+    const email = document.getElementById('sEmail').value.trim().toLowerCase();
+    const phone = document.getElementById('sPhone').value.trim();
+    const pass  = document.getElementById('sPass').value;
+    const cpass = document.getElementById('sCPass').value;
+    const errEl = document.getElementById('signupErr');
+    const okEl  = document.getElementById('signupOk');
+
+    if (!first || !last || !email || !phone || !pass) {
+      errEl.textContent = 'Please fill all required fields.'; errEl.style.display = 'block'; return;
+    }
+    if (pass.length < 6) {
+      errEl.textContent = 'Password must be at least 6 characters.'; errEl.style.display = 'block'; return;
+    }
+    if (pass !== cpass) {
+      errEl.textContent = 'Passwords do not match.'; errEl.style.display = 'block'; return;
+    }
+    const users = getUsers();
+    if (users.find(u => u.email === email)) {
+      errEl.textContent = 'This email is already registered. Please sign in.'; errEl.style.display = 'block'; return;
+    }
+
+    const newUser = {
+      name:   first + ' ' + last,
+      email, phone, pass,
+      role:   currentRole,
+      plan:   currentRole === 'member'  ? (document.getElementById('sPlan').value  || 'Basic') : '',
+      spec:   currentRole === 'trainer' ? (document.getElementById('sSpec').value  || 'General Fitness') : '',
+      exp:    currentRole === 'trainer' ? (document.getElementById('sExp').value + ' years') : '',
+      bmi:    0, att: 0, days: 30,
+      joined: new Date().toLocaleDateString('en-IN', { day:'numeric', month:'short', year:'numeric' }),
+    };
+    users.push(newUser);
+    saveUsers(users);
+
+    okEl.textContent = '✅ Account created! Redirecting to login…';
+    okEl.style.display = 'block';
+    setTimeout(() => switchTab('login'), 1600);
+  }
+
+  /* ── Auto-redirect if already logged in ─────── */
+  const sess = getSession();
+  if (sess) {
+    if (sess.role === 'member')  window.location.href = 'member-dashboard.html';
+    if (sess.role === 'trainer') window.location.href = 'trainer-dashboard.html';
+  }
+</script>
+</body>
+</html>
