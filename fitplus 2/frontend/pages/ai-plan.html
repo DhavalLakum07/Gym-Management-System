@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AI Workout & Diet Plan — FitPlus</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../css/style.css"/>
+  <style>
+    .ai-page { padding: 52px 5%; max-width: 1060px; margin: 0 auto; }
+
+    /* veg / nonveg toggle */
+    .diet-toggle { display: flex; gap: 0; margin-bottom: 18px; border-radius: 10px; overflow: hidden; border: 1px solid var(--border2); }
+    .diet-btn {
+      flex: 1; padding: 11px; text-align: center; cursor: pointer;
+      font-family: var(--font-display); font-size: 1.05rem; letter-spacing: .5px;
+      transition: all .15s; color: var(--gray); background: var(--bg3);
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+    }
+    .diet-btn.veg.active    { background: rgba(34,197,94,.15);  color: #22c55e; }
+    .diet-btn.nonveg.active { background: rgba(239,68,68,.15);  color: #ef4444; }
+    .veg-dot   { width: 11px; height: 11px; border-radius: 50%; background: #22c55e; flex-shrink:0; }
+    .nonveg-dot{ width: 11px; height: 11px; border-radius: 50%; background: #ef4444; flex-shrink:0; }
+
+    /* plan result */
+    @keyframes fadeUp { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:translateY(0)} }
+    .plan-result { display:none; animation: fadeUp .4s ease both; }
+    .plan-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 16px; }
+    @media(max-width:700px){ .plan-grid { grid-template-columns: 1fr; } }
+    .plan-box { background: var(--bg3); border: 1px solid var(--border2); border-radius: 14px; padding: 20px; }
+    .plan-box h4 { font-family: var(--font-display); font-size: 1.2rem; letter-spacing: 1px; margin-bottom: 14px; display:flex; align-items:center; gap:8px; }
+    .day-row { display:flex; justify-content:space-between; align-items:flex-start; padding:9px 0; border-bottom:1px solid var(--border); font-size:.84rem; gap:12px; }
+    .day-row:last-child { border-bottom:none; }
+    .day-label { color:var(--gray); font-weight:600; min-width:32px; flex-shrink:0; }
+    .day-ex { color:var(--white); text-align:right; line-height:1.4; }
+    .meal-row { display:flex; gap:12px; padding:8px 0; border-bottom:1px solid var(--border); font-size:.83rem; align-items:flex-start; }
+    .meal-row:last-child { border-bottom:none; }
+    .meal-time { color:var(--orange); font-weight:600; min-width:62px; flex-shrink:0; font-size:.77rem; }
+    .meal-food { color:var(--white); line-height:1.5; }
+    .macros-row { display:flex; gap:10px; margin-top:14px; flex-wrap:wrap; }
+    .macro-chip { background:var(--bg2); border:1px solid var(--border); border-radius:9px; padding:8px 14px; font-size:.78rem; text-align:center; flex:1; min-width:65px; }
+    .macro-val { font-family:var(--font-display); font-size:1.3rem; line-height:1; margin-bottom:3px; }
+    .macro-lbl { color:var(--gray); font-size:.68rem; }
+    .ai-tip { background:rgba(255,107,43,.07); border:1px solid rgba(255,107,43,.2); border-radius:10px; padding:14px 18px; font-size:.875rem; color:var(--gray); margin-top:14px; line-height:1.7; }
+    .ai-tip strong { color:var(--orange); }
+    .summary-card { background:var(--bg2); border:1px solid var(--border2); border-radius:14px; padding:20px; margin-bottom:0; }
+    .three-col { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; }
+    @media(max-width:600px){ .three-col { grid-template-columns:1fr 1fr; } }
+
+    /* supplement section */
+    .supp-section { margin-top: 20px; }
+    .supp-heading {
+      font-family: var(--font-display); font-size: 1.5rem; letter-spacing: 1px;
+      margin-bottom: 6px; display: flex; align-items: center; gap: 10px;
+    }
+    .supp-sub { font-size: .84rem; color: var(--gray); margin-bottom: 18px; }
+    .collab-tag {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(255,107,43,.1); border: 1px solid rgba(255,107,43,.3);
+      padding: 3px 12px; border-radius: 99px;
+      font-size: .72rem; font-weight: 600; color: var(--orange);
+      letter-spacing: .04em; text-transform: uppercase;
+    }
+    .supp-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px,1fr)); gap: 14px; }
+    .supp-card {
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: 14px; padding: 18px; transition: all .15s;
+      position: relative; overflow: hidden;
+    }
+    .supp-card:hover { border-color: var(--border2); transform: translateY(-3px); }
+    .supp-card.recommended { border-color: rgba(255,107,43,.35); background: rgba(255,107,43,.04); }
+    .supp-rec-tag {
+      position: absolute; top: 12px; right: 12px;
+      background: var(--orange); color: #fff;
+      font-size: .6rem; font-weight: 700; padding: 2px 8px;
+      border-radius: 99px; text-transform: uppercase; letter-spacing: .05em;
+    }
+    .supp-icon { font-size: 2rem; margin-bottom: 10px; }
+    .supp-name { font-family: var(--font-display); font-size: 1.25rem; letter-spacing: 1px; margin-bottom: 3px; }
+    .supp-brand {
+      font-size: .72rem; color: var(--orange); font-weight: 600;
+      text-transform: uppercase; letter-spacing: .06em; margin-bottom: 8px;
+      display: flex; align-items: center; gap: 5px;
+    }
+    .partner-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--orange); }
+    .supp-desc { font-size: .8rem; color: var(--gray); line-height: 1.55; margin-bottom: 10px; }
+    .supp-why {
+      background: var(--bg3); border-radius: 7px; padding: 7px 10px;
+      font-size: .75rem; color: var(--gray); line-height: 1.5; margin-bottom: 10px;
+    }
+    .supp-why strong { color: var(--white); }
+    .supp-dose { font-size: .75rem; color: var(--gray2); margin-bottom: 10px; }
+    .supp-price {
+      font-family: var(--font-display); font-size: 1.4rem; color: var(--orange);
+      display: flex; align-items: baseline; gap: 6px;
+    }
+    .supp-price span { font-size: .78rem; color: var(--gray); font-family: var(--font-body); }
+    .supp-veg-badge {
+      display: inline-flex; align-items: center; gap: 4px;
+      font-size: .65rem; font-weight: 700; padding: 2px 8px;
+      border-radius: 99px; margin-bottom: 8px;
+    }
+    .badge-veg    { background: rgba(34,197,94,.12);  color: #22c55e; border: 1px solid rgba(34,197,94,.25); }
+    .badge-nonveg { background: rgba(239,68,68,.12);  color: #ef4444; border: 1px solid rgba(239,68,68,.25); }
+    .badge-both   { background: rgba(59,130,246,.12); color: #3b82f6; border: 1px solid rgba(59,130,246,.25); }
+
+    .note-box {
+      background: rgba(59,130,246,.07); border: 1px solid rgba(59,130,246,.2);
+      border-radius: 10px; padding: 13px 16px; font-size: .82rem; color: var(--gray);
+      margin-top: 16px; line-height: 1.7;
+    }
+    .note-box strong { color: #3b82f6; }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <a href="../index.html" class="nav-logo">FIT<span>+</span></a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="bmi.html">BMI</a></li>
+      <li><a href="ai-plan.html" class="active">🤖 AI Plan</a></li>
+      <li><a href="crowd.html">👥 Crowd</a></li>
+      <li><a href="progress.html">📈 Progress</a></li>
+      <li><a href="injury.html">⚠️ Injury</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="auth.html" class="nav-admin">🔑 Login / Sign Up</a></li>
+    </ul>
+    <button class="nav-toggle" onclick="toggleMenu()">☰</button>
+  </nav>
+
+  <div class="page-hero">
+    <div class="section-tag">Feature 1 — AI Powered</div>
+    <h1>WORKOUT & DIET PLAN</h1>
+    <p>Enter your details and get a personalised weekly plan + supplement guide instantly.</p>
+  </div>
+
+  <div class="ai-page">
+    <div class="card-box" style="margin-bottom:20px;">
+      <h3 style="font-family:var(--font-display);font-size:1.5rem;letter-spacing:1px;margin-bottom:20px;">📋 YOUR DETAILS</h3>
+
+      <div class="three-col">
+        <div class="form-group"><label>Weight (kg)</label><input id="aiWeight" type="number" placeholder="72" min="30" max="200"/></div>
+        <div class="form-group"><label>Height (cm)</label><input id="aiHeight" type="number" placeholder="175" min="100" max="250"/></div>
+        <div class="form-group"><label>Age</label><input id="aiAge" type="number" placeholder="25" min="10" max="80"/></div>
+      </div>
+
+      <div class="two-col">
+        <div class="form-group"><label>Gender</label>
+          <select id="aiGender"><option value="male">Male</option><option value="female">Female</option></select>
+        </div>
+        <div class="form-group"><label>Activity Level</label>
+          <select id="aiActivity">
+            <option value="sedentary">Sedentary (desk job)</option>
+            <option value="light">Light (1–3 days/week)</option>
+            <option value="moderate" selected>Moderate (3–5 days/week)</option>
+            <option value="active">Active (6–7 days/week)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group"><label>Your Goal</label>
+        <select id="aiGoal">
+          <option value="fat_loss">🔥 Fat Loss — Lose weight, burn fat</option>
+          <option value="muscle_gain">💪 Muscle Gain — Build strength &amp; size</option>
+          <option value="endurance">🏃 Endurance — Improve stamina &amp; cardio</option>
+          <option value="maintenance">⚖️ Maintenance — Stay fit &amp; healthy</option>
+        </select>
+      </div>
+
+      <!-- VEG / NON-VEG TOGGLE -->
+      <div class="form-group">
+        <label>Diet Preference</label>
+        <div class="diet-toggle">
+          <div class="diet-btn veg active" id="btnVeg" onclick="setDiet('veg')">
+            <span class="veg-dot"></span> Vegetarian 🥦
+          </div>
+          <div class="diet-btn nonveg" id="btnNonveg" onclick="setDiet('nonveg')">
+            <span class="nonveg-dot"></span> Non-Vegetarian 🍗
+          </div>
+        </div>
+      </div>
+
+      <button class="btn-primary" style="width:100%;text-align:center" onclick="generatePlan()">
+        GENERATE MY PLAN →
+      </button>
+    </div>
+
+    <!-- Result: workout + diet -->
+    <div class="plan-result" id="planResult">
+      <div class="summary-card" id="planSummary"></div>
+      <div class="plan-grid">
+        <div class="plan-box" id="workoutBox"></div>
+        <div class="plan-box" id="dietBox"></div>
+      </div>
+      <div class="ai-tip" id="aiTip"></div>
+
+      <!-- SUPPLEMENT SECTION -->
+      <div class="supp-section" id="suppSection"></div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-bottom"><p>© 2025 FitPlus · Admin: Lakum Dhaval · 📞 9904755999</p></div>
+  </footer>
+
+  <script src="../js/main.js"></script>
+  <script src="../js/ai-plan.js"></script>
+</body>
+</html>

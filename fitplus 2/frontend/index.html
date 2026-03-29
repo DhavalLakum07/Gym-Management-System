@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FitPlus — Train Hard. Live Strong.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+
+  <!-- ── NAV ───────────────────────────────────────────── -->
+  <nav class="nav">
+    <a href="index.html" class="nav-logo">FIT<span>+</span></a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html" class="active">Home</a></li>
+      <li><a href="pages/about.html">About</a></li>
+      <li><a href="pages/bmi.html">BMI</a></li>
+      <li><a href="pages/ai-plan.html">🤖 AI Plan</a></li>
+      <li><a href="pages/crowd.html">👥 Crowd</a></li>
+      <li><a href="pages/progress.html">📈 Progress</a></li>
+      <li><a href="pages/injury.html">⚠️ Injury</a></li>
+      <li><a href="pages/contact.html">Contact</a></li>
+      <li><a href="pages/auth.html" class="nav-admin">🔑 Login / Sign Up</a></li>
+    </ul>
+    <button class="nav-toggle" onclick="toggleMenu()">☰</button>
+  </nav>
+
+  <!-- ── HERO ──────────────────────────────────────────── -->
+  <section class="hero">
+    <div class="hero-bg-text">FITPLUS</div>
+    <div class="hero-content">
+      <div class="hero-tag">💪 Welcome to FitPlus</div>
+      <h1 class="hero-title">TRAIN HARD.<br/><span>LIVE STRONG.</span></h1>
+      <p class="hero-sub">Your complete fitness destination. Expert trainers, personalized plans, and a community that pushes you beyond limits.</p>
+      <div class="hero-btns">
+        <a href="pages/auth.html" class="btn-primary">Get Started →</a>
+        <a href="pages/bmi.html" class="btn-outline">Check BMI</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><span class="stat-num">500+</span><span class="stat-label">Members</span></div>
+        <div class="stat-divider"></div>
+        <div class="stat"><span class="stat-num">15+</span><span class="stat-label">Trainers</span></div>
+        <div class="stat-divider"></div>
+        <div class="stat"><span class="stat-num">20+</span><span class="stat-label">Classes</span></div>
+      </div>
+    </div>
+    <div class="hero-img-side">
+      <div class="hero-card">
+        <div class="hero-card-icon">🏋️</div>
+        <p class="hero-card-title">Strength Training</p>
+        <p class="hero-card-sub">Mon · Wed · Fri</p>
+      </div>
+      <div class="hero-card">
+        <div class="hero-card-icon">🧘</div>
+        <p class="hero-card-title">Yoga & Flexibility</p>
+        <p class="hero-card-sub">Tue · Thu · Sat</p>
+      </div>
+      <div class="hero-card">
+        <div class="hero-card-icon">🏃</div>
+        <p class="hero-card-title">Cardio Blast</p>
+        <p class="hero-card-sub">Daily 6AM–8AM</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SERVICES ───────────────────────────────────────── -->
+  <section class="section">
+    <div class="section-tag">What We Offer</div>
+    <h2 class="section-title">OUR SERVICES</h2>
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-icon">🏋️</div>
+        <h3>Weight Training</h3>
+        <p>Build muscle and increase strength with guided weight training programs.</p>
+      </div>
+      <div class="service-card featured">
+        <div class="service-icon">🥊</div>
+        <h3>Boxing & Cardio</h3>
+        <p>High-energy boxing sessions that burn fat and boost endurance fast.</p>
+        <span class="featured-tag">Popular</span>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">🧘</div>
+        <h3>Yoga</h3>
+        <p>Improve flexibility, balance, and mental clarity with daily yoga classes.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">🍎</div>
+        <h3>Diet Planning</h3>
+        <p>Personalized nutrition plans crafted by certified dieticians.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">📊</div>
+        <h3>Progress Tracking</h3>
+        <p>Monthly body composition analysis and fitness goal tracking.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">👥</div>
+        <h3>Group Classes</h3>
+        <p>Fun and motivating group sessions — Zumba, Pilates, CrossFit and more.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── PLANS ──────────────────────────────────────────── -->
+  <section class="section plans-section">
+    <div class="section-tag">Pricing</div>
+    <h2 class="section-title">MEMBERSHIP PLANS</h2>
+    <div class="plans-grid">
+      <div class="plan-card">
+        <h3 class="plan-name">Basic</h3>
+        <div class="plan-price">₹699<span>/month</span></div>
+        <ul class="plan-features">
+          <li>✓ Gym Access</li>
+          <li>✓ Locker Room</li>
+          <li>✓ Basic Equipment</li>
+          <li class="disabled">✗ Personal Trainer</li>
+          <li class="disabled">✗ Group Classes</li>
+        </ul>
+        <a href="pages/contact.html" class="btn-outline" style="display:block;text-align:center">Get Started</a>
+      </div>
+      <div class="plan-card plan-featured">
+        <div class="plan-popular">Most Popular</div>
+        <h3 class="plan-name">Standard</h3>
+        <div class="plan-price">₹1,799<span>/3 months</span></div>
+        <ul class="plan-features">
+          <li>✓ Gym Access</li>
+          <li>✓ Locker Room</li>
+          <li>✓ All Equipment</li>
+          <li>✓ 1 Trainer/week</li>
+          <li>✓ Group Classes</li>
+        </ul>
+        <a href="pages/contact.html" class="btn-primary" style="display:block;text-align:center">Get Started</a>
+      </div>
+      <div class="plan-card">
+        <h3 class="plan-name">Premium</h3>
+        <div class="plan-price">₹4,999<span>/year</span></div>
+        <ul class="plan-features">
+          <li>✓ Unlimited Access</li>
+          <li>✓ Private Locker</li>
+          <li>✓ Personal Trainer</li>
+          <li>✓ All Classes</li>
+          <li>✓ Diet Consultation</li>
+        </ul>
+        <a href="pages/contact.html" class="btn-outline" style="display:block;text-align:center">Get Started</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SMART FEATURES ───────────────────────────────────── -->
+  <section class="section" style="padding-top:0">
+    <div class="section-tag">New — AI Powered</div>
+    <h2 class="section-title">SMART FEATURES</h2>
+    <div class="services-grid">
+      <a href="pages/ai-plan.html" style="text-decoration:none">
+        <div class="service-card" style="cursor:pointer">
+          <div class="service-icon">🤖</div>
+          <h3>AI Workout & Diet</h3>
+          <p>Enter your goal — get a full 7-day workout + meal plan instantly. Works offline.</p>
+          <div style="margin-top:12px;font-size:.78rem;color:var(--orange);font-weight:600">Open →</div>
+        </div>
+      </a>
+      <a href="pages/crowd.html" style="text-decoration:none">
+        <div class="service-card featured" style="cursor:pointer">
+          <span class="featured-tag">Live</span>
+          <div class="service-icon">👥</div>
+          <h3>Crowd Prediction</h3>
+          <p>See live gym crowd level. Know the best time to visit before you leave home.</p>
+          <div style="margin-top:12px;font-size:.78rem;color:var(--orange);font-weight:600">Open →</div>
+        </div>
+      </a>
+      <a href="pages/progress.html" style="text-decoration:none">
+        <div class="service-card" style="cursor:pointer">
+          <div class="service-icon">📈</div>
+          <h3>Progress Charts</h3>
+          <p>Weight change, calories burned, and workout consistency — all in one dashboard.</p>
+          <div style="margin-top:12px;font-size:.78rem;color:var(--orange);font-weight:600">Open →</div>
+        </div>
+      </a>
+      <a href="pages/injury.html" style="text-decoration:none">
+        <div class="service-card" style="cursor:pointer">
+          <div class="service-icon">⚠️</div>
+          <h3>Injury Prevention</h3>
+          <p>Log workouts — system warns you if you are overtraining before injury happens.</p>
+          <div style="margin-top:12px;font-size:.78rem;color:var(--orange);font-weight:600">Open →</div>
+        </div>
+      </a>
+      <a href="pages/bmi.html" style="text-decoration:none">
+        <div class="service-card" style="cursor:pointer">
+          <div class="service-icon">⚡</div>
+          <h3>BMI Calculator</h3>
+          <p>Calculate your Body Mass Index and get personalised health advice instantly.</p>
+          <div style="margin-top:12px;font-size:.78rem;color:var(--orange);font-weight:600">Open →</div>
+        </div>
+      </a>
+      <a href="pages/login.html" style="text-decoration:none">
+        <div class="service-card" style="cursor:pointer">
+          <div class="service-icon">🔑</div>
+          <h3>Member / Trainer Login</h3>
+          <p>Sign in to your personal dashboard — view stats, trainer, classes and more.</p>
+          <div style="margin-top:12px;font-size:.78rem;color:var(--orange);font-weight:600">Login →</div>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ─────────────────────────────────────────── -->
+  <footer class="footer">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="nav-logo" style="font-size:2rem">FIT<span>+</span></div>
+        <p>Your complete fitness destination.<br/>Train hard. Live strong.</p>
+      </div>
+      <div class="footer-links">
+        <p class="footer-heading">Quick Links</p>
+        <a href="index.html">Home</a>
+        <a href="pages/about.html">About</a>
+        <a href="pages/bmi.html">BMI Calculator</a>
+        <a href="pages/contact.html">Contact</a>
+        <a href="pages/login.html">Member Login</a>
+      </div>
+      <div class="footer-links">
+        <p class="footer-heading">Smart Features</p>
+        <a href="pages/ai-plan.html">🤖 AI Workout Plan</a>
+        <a href="pages/crowd.html">👥 Crowd Prediction</a>
+        <a href="pages/progress.html">📈 Progress Charts</a>
+        <a href="pages/injury.html">⚠️ Injury Prevention</a>
+      </div>
+      <div class="footer-contact">
+        <p class="footer-heading">Contact Us</p>
+        <p>📞 +91 99047 55999</p>
+        <p>📧 admin@fitplus.com</p>
+        <p>📍 Ahmedabad, Gujarat</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 FitPlus. All rights reserved. | Admin: Lakum Dhaval</p>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
